@@ -5,8 +5,9 @@
 
 #include "snapshot.h"
 
-void run(char *args[MAX_LINE_LENGTH]){
-	for (int i=0;strcmp("\n",args[i]);i++){
+void run(char *args[MAX_LINE_LENGTH],int j){
+	//Just prints the argumnets
+	for (int i=0;i<j;i++){
 		printf("%s\n",args[i]);
 	}
 }
@@ -16,11 +17,11 @@ void getCommand(void){
         fgets(userCommand,MAX_LINE_LENGTH,stdin);
 	char *args[MAX_LINE_LENGTH];
 	int i=0;        
-	for (char* p=strtok(userCommand," "); p!=NULL;p=strtok(NULL," ")){
+	for (char* p=strtok(userCommand," "); p!=NULL; p=strtok(NULL," ") ){
 		args[i]=p;
 		i++;
 	}
-	run(args);
+	run(args,i);
 }
 
 int main(void){
