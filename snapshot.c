@@ -5,7 +5,7 @@
 
 #include "snapshot.h"
 
-#define NUM_FUNCTIONS 2
+#define NUM_FUNCTIONS 4
 
 entry* firstEntry;
 
@@ -31,9 +31,10 @@ void listEntries(char* args[MAX_LINE_LENGTH], int numArgs){
 }
 
 void list(char* args[MAX_LINE_LENGTH], int numArgs){
-        if (strcmp(args[2],"KEYS")){
+	strtok(args[1],"\n"); //removes newline
+	if (strcasecmp(args[1],"KEYS")==0){
                 listKeys(args,numArgs);
-        } else if (strcmp(args[2],"ENTRIES")){
+        } else if (strcasecmp(args[1],"ENTRIES")==0){
                 listEntries(args,numArgs);
         }
 }
@@ -72,12 +73,11 @@ int main(void){
 		fgets(userCommand,MAX_LINE_LENGTH,stdin);
 		char *args[MAX_LINE_LENGTH];
 		int i=0;
-		for (char* p=strtok(userCommand," "); p!=NULL; p=strtok(NULL," ") ){
+		for (char* p=strtok(userCommand," \n"); p!=NULL; p=strtok(NULL," ") ){
 				args[i]=p;
 				i++;
 		}
 		args[0]=strLower(args[0]); //convert command to lowercase
-		strtok(args[0],"\n"); //removes a trailing newline if one exists
 		
 		
 		//RUN FUNCTION
