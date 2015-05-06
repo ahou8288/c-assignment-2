@@ -14,6 +14,40 @@ struct functionList{
 	void (*ptr)();
 };
 
+void set(char* args[MAX_LINE_LENGTH], int numArgs){	
+	//Create the entry to add
+	entry* newEntry=malloc(sizeof(entry));
+	
+	//Add the first value
+	value* firstVal=malloc(sizeof(value));
+	firstVal->next=NULL;
+	firstVal->prev=NULL;
+	firstVal->value=2;//sscanf(args[2],"%d");
+	//Add subse
+	int i=0;
+	for (value* index=firstVal;i<numArgs-3;i++,index=index->next){
+		value* nextVal=malloc(sizeof(value));
+		nextVal->prev=index;
+		index->next=nextVal;
+		index->value=1;//sscanf(args[i+3],"%d");
+	}
+	
+	memcpy(newEntry->key,args[1],MAX_KEY_LENGTH*sizeof(char));
+	
+	if (firstEntry==NULL){
+		firstEntry=newEntry;
+                printf("no keys\n");
+        } else {
+		entry* index;
+		for (index=firstEntry;firstEntry->next!=NULL;index=index->next){
+		}
+		index->next=newEntry;
+		newEntry->prev=index;
+		newEntry->next=NULL;
+                printf("");
+        }
+ }
+
 void listKeys(char* args[MAX_LINE_LENGTH], int numArgs){
 	if (firstEntry==NULL){
 		printf("no keys\n");
