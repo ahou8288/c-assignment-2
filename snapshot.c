@@ -52,10 +52,11 @@ void get(char* args[MAX_LINE_LENGTH], int numArgs){
 	if (firstEntry==NULL){
 		printf("no such key\n");
 	} else {
+		strtok(args[1],"\n");
 		printf("[");
 		for (entry* index=firstEntry;index!=NULL;index=index->next){
-		//	printf("key: %s",index->key);
-			//if (strcasecmp(index->key,args[1])){ //Match the index
+			//printf("key: %s",index->key);
+			if (strcasecmp(index->key,args[1])==0){ //Match the index
 				for (value* values = index->values;values!=NULL;values=values->next){ //Print all in linked list
 					if (values->next==NULL){
 						printf("%d",values->value);
@@ -63,7 +64,7 @@ void get(char* args[MAX_LINE_LENGTH], int numArgs){
 						printf("%d ",values->value);
 					}
 				}
-			//}
+			}
 		}
 		printf("]\n");
 	}
