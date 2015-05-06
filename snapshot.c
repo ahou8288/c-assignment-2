@@ -99,9 +99,26 @@ void help(void){
         printf("%s",HELP);
 }
 
-void bye(){
+void freeMemory(void){
+	if (firstEntry!=NULL){
+		entry* index1;
+		for (index1=firstEntry; index1!=NULL; index1=index1->next){
+			value* index2;
+			printf("freeing values\n");
+			for (index2=index1->values; index2!=NULL; index2=index2->next){
+				free(index2->prev);
+			}
+			free(index2);
+			free(index1->prev);
+		}
+		free(index1);
+	}
+}
+
+void bye(void){
         printf("bye\n");
-        exit(0);
+	freeMemory();        
+	exit(0);
 }
 
 char* strLower(char* inString){
