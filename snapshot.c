@@ -22,16 +22,14 @@ void set(char* args[MAX_LINE_LENGTH], int numArgs){
 	value* firstVal=malloc(sizeof(value));
 	firstVal->next=NULL;
 	firstVal->prev=NULL;
-	firstVal->value=sscanf(args[2],"%d");
+	sscanf(args[2],"%d",&firstVal->value);
 	//Add subsequent values
 	int i=0;
-	printf("setting %d new values\n",numArgs-3);
 	for (value* index=firstVal;i<numArgs-3;i++,index=index->next){
 		value* nextVal=malloc(sizeof(value));
 		nextVal->prev=index;
 		index->next=nextVal;
-		index->value=sscanf(args[i+3],"%d");
-		printf("put 1\n");
+		sscanf(args[i+3],"%d",&nextVal->value);
 	}
 	
 	memcpy(newEntry->key,args[1],MAX_KEY_LENGTH*sizeof(char));
@@ -56,10 +54,14 @@ void get(char* args[MAX_LINE_LENGTH], int numArgs){
 	} else {
 		printf("[");
 		for (entry* index=firstEntry;index!=NULL;index=index->next){
-			printf("key: %s",index->key);
+		//	printf("key: %s",index->key);
 			//if (strcasecmp(index->key,args[1])){ //Match the index
-				for (value* values = index->values;values->next!=NULL;values=values->next){ //Print all in linked list
-					printf("%d ",values->value);
+				for (value* values = index->values;values!=NULL;values=values->next){ //Print all in linked list
+					if (values->next==NULL){
+						printf("%d",values->value);
+					} else {
+						printf("%d ",values->value);
+					}
 				}
 			//}
 		}
