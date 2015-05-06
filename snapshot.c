@@ -5,7 +5,7 @@
 
 #include "snapshot.h"
 
-#define NUM_FUNCTIONS 4
+#define NUM_FUNCTIONS 5
 
 entry* firstEntry;
 
@@ -23,8 +23,9 @@ void set(char* args[MAX_LINE_LENGTH], int numArgs){
 	firstVal->next=NULL;
 	firstVal->prev=NULL;
 	firstVal->value=2;//sscanf(args[2],"%d");
-	//Add subse
+	//Add subsequent values
 	int i=0;
+	printf("setting %d new values\n",numArgs-3);
 	for (value* index=firstVal;i<numArgs-3;i++,index=index->next){
 		value* nextVal=malloc(sizeof(value));
 		nextVal->prev=index;
@@ -33,10 +34,10 @@ void set(char* args[MAX_LINE_LENGTH], int numArgs){
 	}
 	
 	memcpy(newEntry->key,args[1],MAX_KEY_LENGTH*sizeof(char));
-	
+	newEntry->values=firstVal;
+
 	if (firstEntry==NULL){
 		firstEntry=newEntry;
-                printf("no keys\n");
         } else {
 		entry* index;
 		for (index=firstEntry;firstEntry->next!=NULL;index=index->next){
@@ -44,16 +45,33 @@ void set(char* args[MAX_LINE_LENGTH], int numArgs){
 		index->next=newEntry;
 		newEntry->prev=index;
 		newEntry->next=NULL;
-                printf("");
         }
+	printf("ok\n");
  }
 
-void listKeys(char* args[MAX_LINE_LENGTH], int numArgs){
+void get(char* args[MAX_LINE_LENGTH], int numArgs){
 	if (firstEntry==NULL){
-		printf("no keys\n");
+		printf("no such key\n");
 	} else {
-		printf("");
+		printf("[");
+		for (entry* index=firstEntry;index->next!=NULL;index=index->next){
+			printf("entry");
+			//if (strcasecmp(index->key,args[1])){ //Match the index
+				for (value* values = index->values;values->next!=NULL;values=values->next){ //Print all in linked list
+					printf("%d ",values->value);
+				}
+			//}
+		}
+		printf("]\n");
 	}
+}
+
+void listKeys(char* args[MAX_LINE_LENGTH], int numArgs){
+        if (firstEntry==NULL){
+                printf("no keys\n");
+        } else {
+                printf("");
+        }
 }
 
 void listEntries(char* args[MAX_LINE_LENGTH], int numArgs){
@@ -65,21 +83,12 @@ void listEntries(char* args[MAX_LINE_LENGTH], int numArgs){
 }
 
 void list(char* args[MAX_LINE_LENGTH], int numArgs){
-	strtok(args[1],"\n"); //removes newline
-	if (strcasecmp(args[1],"KEYS")==0){
+        strtok(args[1],"\n"); //removes newline
+        if (strcasecmp(args[1],"KEYS")==0){
                 listKeys(args,numArgs);
         } else if (strcasecmp(args[1],"ENTRIES")==0){
                 listEntries(args,numArgs);
         }
-}
-
-
-void get(char* args[MAX_LINE_LENGTH], int numArgs){
-	if (firstEntry==NULL){
-		printf("no such key\n");
-	} else {
-		printf("");
-	}
 }
 
 void help(void){
@@ -133,7 +142,8 @@ int main(void){
                 myFnc[2].ptr=&list;
                 myFnc[3].name="get";
                 myFnc[3].ptr=&get;
-
+                myFnc[4].name="set";
+                myFnc[4].ptr=&set;
 	        //printf("Command name is %s\n",args[0]);
 		for (int i2=0; i2<NUM_FUNCTIONS; i2++){
 	                //printf("%s --- %s\n",args[0],myFnc[i].name);
