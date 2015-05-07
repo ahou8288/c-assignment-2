@@ -34,6 +34,8 @@ void set(char* args[MAX_LINE_LENGTH], int numArgs){
 	
 	memcpy(newEntry->key,args[1],MAX_KEY_LENGTH*sizeof(char));
 	newEntry->values=firstVal;
+	newEntry->next=NULL;
+	newEntry->prev=NULL;
 
 	if (firstEntry==NULL){
 		firstEntry=newEntry;
@@ -43,7 +45,6 @@ void set(char* args[MAX_LINE_LENGTH], int numArgs){
 		}
 		index->next=newEntry;
 		newEntry->prev=index;
-		newEntry->next=NULL;
         }
 	printf("ok\n");
  }
